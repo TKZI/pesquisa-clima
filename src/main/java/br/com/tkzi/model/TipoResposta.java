@@ -6,7 +6,6 @@ import lombok.Getter;
 public enum TipoResposta {
 	
 	ESCOLHA_UNICA,
-	ESCOLHA_MULTIPLA,
-	RESPOSTA_LIVRE
+	RESPOSTA_LIVRE,
 
 }

@@ -10,7 +10,7 @@ public class PesquisaNaoEncontradaException extends EntidadeNaoEncontradaExcepti
 	}
 	
 	public PesquisaNaoEncontradaException(Long pesquisaId) {
-		super(String.format("Não existe pesquisa com id ", pesquisaId));
+		super(String.format("Não existe pesquisa com id %d", pesquisaId));
 	}
 
 }

@@ -10,7 +10,7 @@ public class FuncionarioNaoEncontradoException extends EntidadeNaoEncontradaExce
 	}
 	
 	public FuncionarioNaoEncontradoException(Long funcionarioId) {
-		super(String.format("Não possui funcionario com id ", funcionarioId));
+		super(String.format("Não possui funcionario com id %d", funcionarioId));
 	}
 
 }

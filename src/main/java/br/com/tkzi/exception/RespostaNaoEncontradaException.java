@@ -10,7 +10,7 @@ public class RespostaNaoEncontradaException extends EntidadeNaoEncontradaExcepti
 	}
 	
 	public RespostaNaoEncontradaException(Long respostaId) {
-		super(String.format("Não existe resposta de id ", respostaId));
+		super(String.format("Não existe resposta de id %d", respostaId));
 	}
 
 }

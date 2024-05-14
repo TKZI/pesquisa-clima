@@ -1,5 +1,7 @@
 package br.com.tkzi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,6 +30,7 @@ public class Pergunta {
 	@Enumerated(EnumType.STRING)
 	private TipoResposta tipoResposta;
 	
+	@JsonBackReference
 	@JoinColumn(name = "pesquisa_id")
 	@ManyToOne
 	private Pesquisa pesquisa;

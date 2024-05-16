@@ -41,7 +41,7 @@ public class RespostaService {
 
 	public List<Resposta> findRespostasFuncionario(Long funcionarioId) {
 		Funcionario funcionario = funcionarioService.buscarOuFalhar(funcionarioId);
-		List<Resposta> respostasFuncionario = respostaRepository.todasRespostasFuncionario(funcionario.getId());
+		List<Resposta> respostasFuncionario = respostaRepository.todasRespostasFuncionario(funcionarioId);
 
 		if (respostasFuncionario.isEmpty()) {
 			throw new RespostaNaoEncontradaException(String.format("não encotrado nenhuma resposta do funcionario de id %d",funcionarioId));	

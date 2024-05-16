@@ -16,6 +16,6 @@ public interface RespostaRepository extends JpaRepository<Resposta, Long> {
 	public Resposta findByPerguntaIdAndFuncionarioId(Long perguntaId, Long funcionarioId);
 	
 	
-	@Query("from Resposta r  where r.funcionario.id = :funcionario")
+	@Query("select r from Resposta r join fetch r.pergunta where r.funcionario.id = :funcionario")
 	public List<Resposta> todasRespostasFuncionario(@Param("funcionario") Long funcionarioId);
 }

@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,9 +27,11 @@ public class Pergunta {
 	private Long id;
 	
 	@Column
+	@NotNull
 	private String descricao;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private TipoResposta tipoResposta;
 	
 	@JsonBackReference

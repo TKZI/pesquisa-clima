@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,12 +20,15 @@ public class Funcionario {
 	private Long id;
 	
 	@Column
+	@NotNull
 	private String nome;
 	
 	@Column
+	@NotNull
 	private String email;
 	
 	@Column
+	@NotNull
 	private String cargo;
 	
 	@Column(name = "status_participacao")

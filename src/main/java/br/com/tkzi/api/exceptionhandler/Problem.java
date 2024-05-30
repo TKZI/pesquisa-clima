@@ -1,6 +1,7 @@
 package br.com.tkzi.api.exceptionhandler;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +15,13 @@ public class Problem {
 	private String title;
 	private String detail;
 	private OffsetDateTime timestamp;
+	
+	private List<Object> objects;
 
+	@Getter
+	@Builder
+	public static class Object{
+		private String nome;
+		private String userMessage;
+	}
 }

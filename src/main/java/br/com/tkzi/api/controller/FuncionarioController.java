@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.tkzi.model.Funcionario;
 import br.com.tkzi.repository.FuncionarioRepository;
 import br.com.tkzi.service.FuncionarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/funcionario")
@@ -37,7 +38,7 @@ public class FuncionarioController {
 	}
 
 	@PostMapping
-	public Funcionario salvar(@RequestBody Funcionario funcionario) {
+	public Funcionario salvar(@RequestBody @Valid Funcionario funcionario) {
 		return funcionarioService.salvar(funcionario);
 	}
 

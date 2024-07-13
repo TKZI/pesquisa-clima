@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tkzi.api.assembler.FuncionarioModelAssembler;
+import br.com.tkzi.api.model.FuncionarioModel;
 import br.com.tkzi.model.Funcionario;
 import br.com.tkzi.repository.FuncionarioRepository;
 import br.com.tkzi.service.FuncionarioService;
@@ -26,26 +28,30 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
+	
+	@Autowired
+	private FuncionarioModelAssembler funcionarioAssembler;
 
 	@GetMapping
-	public List<Funcionario> listar() {
-		return funcionarioRepository.findAll();
+	public List<FuncionarioModel> listar() {
+		return funcionarioAssembler.toCollectionModel(funcionarioRepository.findAll());
 	}
 
 	@GetMapping("/{funcionarioId}")
-	public Funcionario buscarPorId(@PathVariable Long funcionarioId) {
-		return funcionarioService.buscarOuFalhar(funcionarioId);
+	public FuncionarioModel buscarPorId(@PathVariable Long funcionarioId) {
+		return funcionarioAssembler.toModel(funcionarioService.buscarOuFalhar(funcionarioId));
 	}
 
 	@PostMapping
-	public Funcionario salvar(@RequestBody @Valid Funcionario funcionario) {
-		return funcionarioService.salvar(funcionario);
+	public FuncionarioModel salvar(@RequestBody @Valid Funcionario funcionario) {
+		
+		return funcionarioAssembler.toModel(funcionarioService.salvar(funcionario));
 	}
 
 	@PutMapping("/{funcionarioId}")
-	public Funcionario atualizar(@PathVariable Long funcionarioId, @RequestBody Funcionario funcionarioNovo) {
+	public FuncionarioModel atualizar(@PathVariable Long funcionarioId, @RequestBody Funcionario funcionarioNovo) {
 		Funcionario funcionarioAtualizado = funcionarioService.atualizar(funcionarioId, funcionarioNovo);
-		return funcionarioAtualizado;
+		return funcionarioAssembler.toModel(funcionarioAtualizado);
 	}
 
 	@DeleteMapping("/{funcionarioId}")

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tkzi.api.assembler.PesquisaModelAssembler;
+import br.com.tkzi.api.model.PesquisaModel;
 import br.com.tkzi.model.Pesquisa;
 import br.com.tkzi.service.PesquisaService;
 
@@ -21,25 +23,28 @@ public class PesquisaController {
 
 	@Autowired
 	private PesquisaService pesquisaService;
+	
+	@Autowired
+	private PesquisaModelAssembler pesquisaModelAssembler;
 
 	@GetMapping
-	public List<Pesquisa> listar() {
-		return pesquisaService.listar();
+	public List<PesquisaModel> listar() {
+		return pesquisaModelAssembler.toCollectionModel(pesquisaService.listar());
 	}
 
 	@GetMapping("/{pesquisaId}")
-	public Pesquisa buscarPorId(@PathVariable Long pesquisaId) {
-		return pesquisaService.buscarOuFalhar(pesquisaId);
+	public PesquisaModel buscarPorId(@PathVariable Long pesquisaId) {
+		return pesquisaModelAssembler.toModel(pesquisaService.buscarOuFalhar(pesquisaId));
 	}
 
 	@PostMapping
-	public Pesquisa salvar(@RequestBody Pesquisa pesquisa) {
-		return pesquisaService.salvar(pesquisa);
+	public PesquisaModel salvar(@RequestBody Pesquisa pesquisa) {
+		return pesquisaModelAssembler.toModel(pesquisaService.salvar(pesquisa));
 	}
 
 	@PutMapping("/{pesquisaId}")
-	public Pesquisa atualizar(@PathVariable Long pesquisaId, @RequestBody Pesquisa pesquisa) {
-		return pesquisaService.atualizar(pesquisaId, pesquisa);
+	public PesquisaModel atualizar(@PathVariable Long pesquisaId, @RequestBody Pesquisa pesquisa) {
+		return pesquisaModelAssembler.toModel(pesquisaService.atualizar(pesquisaId, pesquisa));
 
 	}
 

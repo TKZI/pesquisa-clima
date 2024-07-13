@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tkzi.api.assembler.PerguntaModelAssembler;
+import br.com.tkzi.api.model.PerguntaModel;
 import br.com.tkzi.model.Pergunta;
 import br.com.tkzi.service.PerguntaService;
 
@@ -19,20 +21,23 @@ public class PerguntaController {
 	
 	@Autowired
 	private PerguntaService perguntaService;
+	
+	@Autowired
+	private PerguntaModelAssembler perguntaModelAssembler;
 
 	
 	@GetMapping
-	List<Pergunta> listar(){
-		return perguntaService.listar();
+	public List<PerguntaModel> listar(){
+		return perguntaModelAssembler.toCollectionModel(perguntaService.listar());
 	}
 	
 	@GetMapping("/{perguntaId}")
-	Pergunta buscarPorId(@PathVariable Long perguntaId) {
-		return perguntaService.buscarOuFalhar(perguntaId);
+	public PerguntaModel buscarPorId(@PathVariable Long perguntaId) {
+		return perguntaModelAssembler.toModel(perguntaService.buscarOuFalhar(perguntaId));
 	}
 	
 	@PostMapping
-	Pergunta salvar(@RequestBody Pergunta pergunta) {
-		return perguntaService.salvar(pergunta);
+	public PerguntaModel salvar(@RequestBody Pergunta pergunta) {
+		return perguntaModelAssembler.toModel(perguntaService.salvar(pergunta));
 	}
 }

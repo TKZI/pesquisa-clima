@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tkzi.api.assembler.FuncionarioInputDisassembler;
 import br.com.tkzi.api.assembler.FuncionarioModelAssembler;
+import br.com.tkzi.api.input.FuncionarioInput;
 import br.com.tkzi.api.model.FuncionarioModel;
 import br.com.tkzi.model.Funcionario;
 import br.com.tkzi.repository.FuncionarioRepository;
@@ -31,6 +33,9 @@ public class FuncionarioController {
 	
 	@Autowired
 	private FuncionarioModelAssembler funcionarioAssembler;
+	
+	@Autowired
+	private FuncionarioInputDisassembler funcionarioDisassembler;
 
 	@GetMapping
 	public List<FuncionarioModel> listar() {
@@ -43,15 +48,16 @@ public class FuncionarioController {
 	}
 
 	@PostMapping
-	public FuncionarioModel salvar(@RequestBody @Valid Funcionario funcionario) {
-		
+	public FuncionarioModel salvar(@RequestBody @Valid FuncionarioInput funcionarioInput) {
+		Funcionario funcionario = funcionarioDisassembler.toDomainObject(funcionarioInput);
 		return funcionarioAssembler.toModel(funcionarioService.salvar(funcionario));
 	}
 
 	@PutMapping("/{funcionarioId}")
-	public FuncionarioModel atualizar(@PathVariable Long funcionarioId, @RequestBody Funcionario funcionarioNovo) {
-		Funcionario funcionarioAtualizado = funcionarioService.atualizar(funcionarioId, funcionarioNovo);
-		return funcionarioAssembler.toModel(funcionarioAtualizado);
+	public FuncionarioModel atualizar(@PathVariable Long funcionarioId, @RequestBody FuncionarioInput funcionarioInput) {
+		Funcionario funcionario = funcionarioService.buscarOuFalhar(funcionarioId);
+		funcionarioDisassembler.copyToDomainObject(funcionarioInput, funcionario);
+		return funcionarioAssembler.toModel(funcionarioService.salvar(funcionario));
 	}
 
 	@DeleteMapping("/{funcionarioId}")

@@ -13,6 +13,6 @@ public class PesquisaModel {
 	
 	private String titulo;
 	
-	private List<PerguntaModel> pergunta;
+	private List<PerguntaModel> perguntas;
 
 }

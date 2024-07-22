@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tkzi.api.assembler.PesquisaInputDisassembler;
 import br.com.tkzi.api.assembler.PesquisaModelAssembler;
+import br.com.tkzi.api.input.PesquisaInput;
 import br.com.tkzi.api.model.PesquisaModel;
-import br.com.tkzi.model.Pesquisa;
 import br.com.tkzi.service.PesquisaService;
 
 @RestController
@@ -26,6 +27,9 @@ public class PesquisaController {
 	
 	@Autowired
 	private PesquisaModelAssembler pesquisaModelAssembler;
+	
+	@Autowired
+	private PesquisaInputDisassembler pesquisaInputDisassembler;
 
 	@GetMapping
 	public List<PesquisaModel> listar() {
@@ -38,12 +42,14 @@ public class PesquisaController {
 	}
 
 	@PostMapping
-	public PesquisaModel salvar(@RequestBody Pesquisa pesquisa) {
+	public PesquisaModel salvar(@RequestBody PesquisaInput pesquisaInput) {
+		var pesquisa = pesquisaInputDisassembler.toDomainObject(pesquisaInput);
 		return pesquisaModelAssembler.toModel(pesquisaService.salvar(pesquisa));
 	}
 
 	@PutMapping("/{pesquisaId}")
-	public PesquisaModel atualizar(@PathVariable Long pesquisaId, @RequestBody Pesquisa pesquisa) {
+	public PesquisaModel atualizar(@PathVariable Long pesquisaId, @RequestBody PesquisaInput pesquisaInput) {
+		var pesquisa = pesquisaInputDisassembler.toDomainObject(pesquisaInput);
 		return pesquisaModelAssembler.toModel(pesquisaService.atualizar(pesquisaId, pesquisa));
 
 	}

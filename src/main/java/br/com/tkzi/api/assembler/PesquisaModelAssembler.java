@@ -24,7 +24,7 @@ public class PesquisaModelAssembler {
 		
 		PesquisaModel pesquisaModel = modelMapper.map(pesquisa, PesquisaModel.class);
 		List<PerguntaModel> perguntas = pesquisa.getPerguntas().stream().map(perguntaModelAssembler::toModel).collect(Collectors.toList());
-		pesquisaModel.setPergunta(perguntas);
+		pesquisaModel.setPerguntas(perguntas);
 		return pesquisaModel;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.tkzi.api.assembler.RespostaInputDisassembler;
 import br.com.tkzi.api.assembler.RespostaModelAssembler;
 import br.com.tkzi.api.input.RespostaInput;
-import br.com.tkzi.api.model.PerguntaModel;
 import br.com.tkzi.api.model.RespostaModel;
-import br.com.tkzi.service.FuncionarioService;
 import br.com.tkzi.service.RespostaService;
 
 @RestController
@@ -42,10 +41,15 @@ public class RespostaPerguntaController {
 		
 	}
 	
+	@PostMapping("/{perguntaId}")
 	public RespostaModel salvar(@PathVariable Long funcionarioId,@PathVariable Long perguntaId,@RequestBody RespostaInput respostaInput) {
 		var respostaModel = respostaInputDisassembler.toDomainObject(respostaInput);
 		return respostaModelAssembler.toModel(respostaService.salvar(perguntaId, funcionarioId, respostaModel));
 		
 	}
 	
+	@GetMapping("/{perguntaId}")
+	public RespostaModel findById(Long funcionarioId, Long perguntaId) {
+		return respostaModelAssembler.toModel(respostaService.buscarOuFalhar(perguntaId, funcionarioId));
+	}
 }
